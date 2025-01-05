@@ -1,0 +1,26 @@
+name: wemanageit
+root: .
+
+windows:
+  - services:
+      root: ./
+      panes:
+        - api:
+          - go run cmd/wemanageit/main.go web
+        - yarn:
+          - cd frontend
+          - yarn start
+        - worker:
+          - go run cmd/wemanageit/main.go worker
+  - web/editor:
+      root: ./frontend
+      panes:
+        - vim src/index.tsx
+  - api/editor:
+      root: ./
+      panes:
+        - vim cmd/wemanageit/main.go
+  - database:
+      root: ./
+      panes:
+        - pgcli postgres://wemanageit:wemanageit_test@localhost:8855/wemanageit

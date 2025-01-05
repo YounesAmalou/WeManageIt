@@ -1,0 +1,51 @@
+version: "3"
+services:
+  web:
+    build: .
+    ports:
+      - "3333:3333"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - wemanageit-test
+    environment:
+      wemanageit_DATABASE_HOST: postgres
+      wemanageit_MIGRATE: "true"
+    volumes:
+      - wemanageit-uploads:/root/uploads
+      
+  postgres:
+    image: postgres:12.3-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - wemanageit-test
+    environment:
+      POSTGRES_USER: wemanageit
+      POSTGRES_PASSWORD: wemanageit_test
+      POSTGRES_DB: wemanageit
+    volumes:
+      - wemanageit-postgres:/var/lib/postgresql/data
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: always
+    ports:
+      - 1025:1025
+      - 8025:8025
+  redis:
+    image: redis:6.2
+    restart: always
+    ports:
+      - 127.0.0.1:6379:6379
+
+volumes:
+  wemanageit-postgres:
+    external: false
+  wemanageit-uploads:
+    external: false
+
+networks:
+  wemanageit-test:
+    driver: bridge

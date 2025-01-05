@@ -1,0 +1,25 @@
+[server]
+hostname = '0.0.0.0:3333'
+
+[email_notifications]
+enabled = true
+display_name = "No Reply"
+from_address = "example.com"
+
+[storage]
+storage_system = 'local_storage'
+upload_dir_path = 'uploads'
+
+[database]
+host = 'postgres'
+name = 'wemanageit'
+user = 'wemanageit'
+password = 'wemanageit_test'
+
+[smtp]
+username = 'wemanageit@example.com'
+password = ''
+from = 'no-reply@wemanageit.com'
+host = 'localhost'
+port = 11500
+skip_verify = false

@@ -1,0 +1,32 @@
+version: "3"
+services:
+  web:
+    build: .
+    ports:
+      - "6688:3333"
+    depends_on:
+      - postgres
+    networks:
+      - wemanageit-latest-test
+    environment:
+      WEMANAGEIT_DATABASE_HOST: postgres
+      WEMANAGEIT_MIGRATE: "true"
+  postgres:
+    image: postgres:12.3-alpine
+    restart: always
+    networks:
+      - wemanageit-latest-test
+    environment:
+      POSTGRES_USER: wemanageit
+      POSTGRES_PASSWORD: wemanageit_test
+      POSTGRES_DB: wemanageit
+    volumes:
+    - wemanageit-latest-postgres:/var/lib/postgresql/data
+
+volumes:
+  wemanageit-latest-postgres:
+    external: false
+
+networks:
+  wemanageit-latest-test:
+    driver: bridge
